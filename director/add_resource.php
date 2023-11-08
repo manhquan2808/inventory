@@ -2,13 +2,18 @@
 session_start();
 include '../assets/connect/connect.php';
 
-$id= $_SESSION['director_id'];
+$id = $_SESSION['director_id'];
 ?>
-
+<?php
+if (!isset($_SESSION['director_id'])) {
+    header('location:../');
+    exit();
+}
+?>
 <?php
 
 if (isset($_POST['submit'])) {
-    
+
 
     $resource_name = mysqli_escape_string($conn, $_POST['resource_name']);
     $quantity = mysqli_escape_string($conn, $_POST['quantity']);
@@ -23,19 +28,10 @@ if (isset($_POST['submit'])) {
             mysqli_query($conn, "INSERT INTO `resource`(`resource_name`, `quantity`, `status`,`expiration_time`) 
             VALUES ('$resource_name',$quantity, 'Require' ,DATE_ADD(CURDATE(),INTERVAL 365 DAY))")
         ) {
-            //     $Inventory_id = $_POST['Inventory_name'];
-            //     mysqli_query($conn, "INSERT INTO `issue`(`issue_type`, `status`, `inventory_id`) VALUES ('Nguyên vật liệu','Nhập', '$Inventory_id')");
-            //     $issue_id = mysqli_insert_id($conn);
-            //     $resource_id = mysqli_insert_id($conn);
-            //     // Use the $issue_id in the next query to insert into the issue_resources table
-
-            //     $shelves_id = $_POST['shelves_name'];
-            //     $shelves_id_id = mysqli_insert_id($conn);
-            //     mysqli_query($conn, "INSERT INTO `issue_resources`(`issue_id`, `resource_id`, `shelves_id`, `quantity`, `status`) VALUES ('$issue_id', '$resource_id', '$shelves_id', $quantity, 'Đang xử lý')");
-                echo "<script>
+            echo "<script>
                         alert('Thêm thành công');
                     </script>";
-                    // header("location:?action=done");
+            // header("location:?action=done");
         } else {
             // Handle the error if the first INSERT query fails.
             echo 'Có lỗi xảy ra';
@@ -207,53 +203,53 @@ unset($_REQUEST);
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                        <form method="POST">
-        <!-- <div>
+                            <form method="POST">
+                                <!-- <div>
             <label>Resource Name</label>
             <input type="text" name="resource_name" id="resource_name"><br><br>
         </div> -->
-        <label>Resource Name</label>
-        <select name="resource_name" id="resource_name">
-            <option value="" hidden>Choose Resource</option>
-            <?php
-            $resource_name = array();
+                                <label>Resource Name</label>
+                                <select name="resource_name" id="resource_name">
+                                    <option value="" hidden>Choose Resource</option>
+                                    <?php
+                                    $resource_name = array();
 
-            $query = "SELECT resource_id, resource_name FROM `resource`";
-            $result = mysqli_query($conn, $query);
+                                    $query = "SELECT resource_id, resource_name FROM `resource`";
+                                    $result = mysqli_query($conn, $query);
 
-            while ($row = mysqli_fetch_assoc($result)) {
-                array_push($resource_name, $row["resource_name"]);
-                //
-                $result_rc = array_unique($resource_name);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        array_push($resource_name, $row["resource_name"]);
+                                        //
+                                        $result_rc = array_unique($resource_name);
 
-            }
-            foreach ($result_rc as $key => $value) {
-                echo '<option value="' . $value . '" >' . $value . '</option>';
-            }
-            ?>
-        </select>
-        <div class="error">
-            <label>Quantity</label>
-            <input type="number" name="quantity" class="input-field" id="quantity"><br><br>
-        </div>
-        <!-- <div>
+                                    }
+                                    foreach ($result_rc as $key => $value) {
+                                        echo '<option value="' . $value . '" >' . $value . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <div class="error">
+                                    <label>Quantity</label>
+                                    <input type="number" name="quantity" class="input-field" id="quantity"><br><br>
+                                </div>
+                                <!-- <div>
             <label>Inventory Name</label>
             <select name="Inventory_name" id="Inventory_name">
                 <option value="" hidden>Choose Inventory</option>
                 <?php
                 // $Inventory_name = array();
-
+                
                 // $query = "SELECT Inventory_id, Inventory_name FROM `Inventory`";
                 // $result = mysqli_query($conn, $query);
-
+                
                 // while ($row = mysqli_fetch_assoc($result)) {
                 //     // array_push($Inventory_name, $row["Inventory_name"]);
                 //     //
                 //     // $result_iv = array_unique($Inventory_name);
                 //     echo '<option value="' . $row['Inventory_id'] . '" >' . $row["Inventory_name"] . '</option>';
-
+                
                 // }
-
+                
                 ?>
             </select>
         </div>
@@ -263,25 +259,27 @@ unset($_REQUEST);
                 <option value="" hidden>Choose shelves</option>
                 <?php
                 // $shelves_name = array();
-
+                
                 // $query = "SELECT shelves_id, shelves_name FROM `shelves`";
                 // $result = mysqli_query($conn, $query);
-
+                
                 // while ($row = mysqli_fetch_assoc($result)) {
                 //     echo '<option value="' . $row['shelves_id'] . '" >' . $row["shelves_name"] . '</option>';
-
+                
                 // }
                 ?>
             </select>
         </div> -->
-        <div class="button1">
-            <input type="submit" id="submit" class="submit button1" name="submit" value="Submit">
-        </div>
-        <div class="button1">
-            <input type="submit" id="submit1" name="submit1" class="submit button1" value="View List">
-        </div>
+                                <div class="button1">
+                                    <input type="submit" id="submit" class="submit button1" name="submit"
+                                        value="Submit">
+                                </div>
+                                <div class="button1">
+                                    <input type="submit" id="submit1" name="submit1" class="submit button1"
+                                        value="View List">
+                                </div>
 
-    </form>
+                            </form>
                         </div>
                     </div>
                 </div>

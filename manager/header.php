@@ -6,9 +6,6 @@
 <header class="topbar" data-navbarbg="skin6">
     <nav class="navbar top-navbar navbar-expand-md navbar-dark">
         <div class="navbar-header" data-logobg="skin6">
-            <!-- ============================================================== -->
-            <!-- Logo -->
-            <!-- ============================================================== -->
             <a class="navbar-brand ms-4" href="../manager">
                 <!-- Logo icon -->
                 <b class="logo-icon">
@@ -25,18 +22,9 @@
 
                 </span>
             </a>
-            <!-- ============================================================== -->
-            <!-- End Logo -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- toggle and nav items -->
-            <!-- ============================================================== -->
             <a class="nav-toggler waves-effect waves-light text-white d-block d-md-none" href="javascript:void(0)"><i
                     class="ti-menu ti-close"></i></a>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Logo -->
-        <!-- ============================================================== -->
         <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
             <ul class="navbar-nav d-lg-none d-md-block ">
                 <li class="nav-item">
@@ -44,13 +32,7 @@
                             class="ti-menu ti-close"></i></a>
                 </li>
             </ul>
-            <!-- ============================================================== -->
-            <!-- toggle and nav items -->
-            <!-- ============================================================== -->
             <ul class="navbar-nav me-auto mt-md-0 ">
-                <!-- ============================================================== -->
-                <!-- Search -->
-                <!-- ============================================================== -->
 
                 <li class="nav-item search-box">
                     <a class="nav-link text-muted" href="javascript:void(0)"><i class="ti-search"></i></a>
@@ -61,10 +43,6 @@
                 </li>
             </ul>
 
-
-            <!-- ============================================================== -->
-            <!-- Right side toggle and nav items -->
-            <!-- ============================================================== -->
             <ul class="navbar-nav">
                 <!-- ============================================================== -->
                 <!-- User profile and search -->

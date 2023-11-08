@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-// session_destroy();
-// header('location:login.php');
 
 
 $id = $_REQUEST['id'];
@@ -16,7 +14,7 @@ if ($id) {
         if ($_SESSION['manager_id'] === $id) {
             unset($_SESSION['manager_id']);
             header('location:./');
-            // echo '454';
+            
         }
         
 
@@ -24,26 +22,26 @@ if ($id) {
         if ($_SESSION['sale_id'] === $id) {
             unset($_SESSION['sale_id']);
             header('location:./');
-            // echo '454';
+            
         }
     } elseif (isset($_SESSION['nvl_id'])) {
         if ($_SESSION['nvl_id'] === $id) {
             unset($_SESSION['nvl_id']); 
             header('location:./');
-            // echo '454';
+            
         }
 
     } elseif (isset($_SESSION['director_id'])) {
         if ($_SESSION['director_id'] === $id) {
             unset($_SESSION['director_id']);
             header('location:./');
-            // echo '454';
+            
         }
     } elseif (isset($_SESSION['resource_supplier_id'])) {
         if ($_SESSION['resource_supplier_id'] === $id) {
             unset($_SESSION['resource_supplier_id']);
             header('location:./');
-            // echo '454';
+            
         }
     }
 } else {

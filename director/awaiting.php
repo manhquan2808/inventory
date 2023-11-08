@@ -5,10 +5,10 @@ include("../assets/connect/connect.php");
 $id = $_SESSION['director_id'];
 ?>
 <?php
-// if (!isset($_SESSION['resource_supplier_id'])) {
-//     header('location:login.php');
-//     exit();
-// }
+if (!isset($_SESSION['director_id'])) {
+    header('location:../');
+    exit();
+}
 ?>
 
 <?php
@@ -24,43 +24,7 @@ $result = mysqli_query($conn, "SELECT * FROM `resource`
                         where `status` like 'Accept'
                         ORDER BY `created_time` desc");
 
-// if (isset($_POST['submit'])) {
-//     $check_box = [];
 
-//     while ($row_check = mysqli_fetch_assoc($result)) {
-
-//         // Xử lý submit ở đây
-//         if (isset($_POST[$row_check['resource_id']])) {
-//             array_push($check_box, $_POST[$row_check['resource_id']]);
-//             // $check_box = [$_POST[$row_check['resource_id']]];
-
-//         }
-//         // echo var_dump($check_box);
-//     }
-//     if (isset($_POST['Inventory_name']) && count($check_box) > 0) {
-//         foreach ($check_box as $key => $value) {
-//             $sql = "UPDATE `resource` SET status='Distributed' WHERE resource_id=$value";
-//             $inventory_id = $_POST['Inventory_name'];
-//             $sql2 = mysqli_query($conn, "INSERT INTO `issue`(`issue_type`, `status`, `inventory_id`) VALUES ('Nguyên vật liệu','Nhập','$inventory_id')");
-//             $issue_id = mysqli_insert_id($conn);
-//             while($row = mysqli_fetch_assoc($sql2)){
-//                 $issue_id = $row['issue_id'];
-//             }
-            
-//             if (mysqli_query($conn, $sql)) {
-//                 $query_insert_issue = mysqli_query($conn, "INSERT INTO `issue`(`issue_type`, `status`, `inventory_id`) VALUES ('Nguyên vật liệu','Nhập','$inventory_id')");
-//                 if(mysqli_query($conn, "UPDATE `inventory` set `status` = 'Waiting For Shelves' where `inventory_id` = '$inventory_id'")){
-//                 // $issue_id = mysqli_insert_id($conn);
-//                 // $resource_id = mysqli_insert_id($conn);
-//                 $query_insert_issue_resource = mysqli_query($conn, "INSERT INTO `issue_resources`(`issue_id`, `resource_id`,`status`) VALUES ('$issue_id','$resource_id','Available')")
-//                 // $issue_id = mysqli_insert_id($conn);
-//                 // $resource_id = mysqli_insert_id($conn);
-//                 // $query_insert_ir = mysqli_query($conn, "INSERT INTO `issue_products`(`issue_id`, `product_id`, `shelves_id`, `created_date`, `update_date`, `quantity`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]')");
-//             }
-//         } echo "<script>alert('Update Successfully!')</script>";
-//     }
-//     }
-// }
 if (isset($_POST['submit'])) {
     $check_box = [];
 
@@ -115,12 +79,7 @@ if (isset($_POST['submit'])) {
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>q
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    
 </head>
 <style>
     .slc-ivn {
@@ -153,43 +112,21 @@ if (isset($_POST['submit'])) {
 </style>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <!-- <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div> -->
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
+    
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        <!-- ============================================================== -->
+    
         <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
+    
         <?php
         include './header.php';
         include './sidebar_left.php';
         ?>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
+       
         <div class="page-wrapper">
-            <!-- ============================================================== -->
+        
             <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
+        
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
@@ -206,16 +143,16 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
             </div>
-            <!-- ============================================================== -->
+        
             <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
+        
+        
             <!-- Container fluid  -->
-            <!-- ============================================================== -->
+        
             <div class="container-fluid">
-                <!-- ============================================================== -->
+            
                 <!-- Start Page Content -->
-                <!-- ============================================================== -->
+            
                 <div class="row">
                     <!-- column -->
                     <div class="col-sm-12">
@@ -329,39 +266,39 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
             </div>
-            <!-- ============================================================== -->
+        
             <!-- End PAge Content -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
+        
+        
             <!-- Right sidebar -->
-            <!-- ============================================================== -->
+        
             <!-- .right-sidebar -->
-            <!-- ============================================================== -->
+        
             <!-- End Right sidebar -->
-            <!-- ============================================================== -->
+        
         </div>
-        <!-- ============================================================== -->
+    
         <!-- End Container fluid  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
+    
+    
         <!-- footer -->
-        <!-- ============================================================== -->
+    
         <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
         </footer>
-        <!-- ============================================================== -->
+    
         <!-- End footer -->
-        <!-- ============================================================== -->
+    
     </div>
-    <!-- ============================================================== -->
+
     <!-- End Page wrapper  -->
-    <!-- ============================================================== -->
+
     </div>
-    <!-- ============================================================== -->
+
     <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
+
+
     <!-- All Jquery -->
-    <!-- ============================================================== -->
+
     <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

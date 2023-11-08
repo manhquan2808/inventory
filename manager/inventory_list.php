@@ -5,10 +5,10 @@ include("../assets/connect/connect.php");
 $id = $_SESSION['manager_id'];
 ?>
 <?php
-// if (!isset($_SESSION['resource_supplier_id'])) {
-//     header('location:login.php');
-//     exit();
-// }
+if (!isset($_SESSION['manager_id'])) {
+    header('location:../');
+    exit();
+}
 ?>
 
 <?php
@@ -16,51 +16,11 @@ $id = $_SESSION['manager_id'];
 if (isset($_REQUEST['remove_resource_id'])) {
     $remove = $_REQUEST['remove_resource_id'];
     mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Đơn hàng đã bị từ chối' WHERE `resource`.`resource_id` = '$remove'");
-    // } elseif (isset($_REQUEST['update_resource_id'])) {
-    //     $update = $_REQUEST['update_resource_id'];
-    //     mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Đơn hàng đang được giao' WHERE `resource`.`resource_id` = '$update'");
 }
 $result = mysqli_query($conn, "SELECT * FROM `resource`
                         where `status` like 'Accept'
                         ORDER BY `created_time` desc");
 
-// if (isset($_POST['submit'])) {
-//     $check_box = [];
-
-//     while ($row_check = mysqli_fetch_assoc($result)) {
-
-//         // Xử lý submit ở đây
-//         if (isset($_POST[$row_check['resource_id']])) {
-//             array_push($check_box, $_POST[$row_check['resource_id']]);
-//             // $check_box = [$_POST[$row_check['resource_id']]];
-
-//         }
-//         // echo var_dump($check_box);
-//     }
-//     if (isset($_POST['Inventory_name']) && count($check_box) > 0) {
-//         foreach ($check_box as $key => $value) {
-//             $sql = "UPDATE `resource` SET status='Distributed' WHERE resource_id=$value";
-//             $inventory_id = $_POST['Inventory_name'];
-//             $sql2 = mysqli_query($conn, "INSERT INTO `issue`(`issue_type`, `status`, `inventory_id`) VALUES ('Nguyên vật liệu','Nhập','$inventory_id')");
-//             $issue_id = mysqli_insert_id($conn);
-//             while($row = mysqli_fetch_assoc($sql2)){
-//                 $issue_id = $row['issue_id'];
-//             }
-
-//             if (mysqli_query($conn, $sql)) {
-//                 $query_insert_issue = mysqli_query($conn, "INSERT INTO `issue`(`issue_type`, `status`, `inventory_id`) VALUES ('Nguyên vật liệu','Nhập','$inventory_id')");
-//                 if(mysqli_query($conn, "UPDATE `inventory` set `status` = 'Waiting For Shelves' where `inventory_id` = '$inventory_id'")){
-//                 // $issue_id = mysqli_insert_id($conn);
-//                 // $resource_id = mysqli_insert_id($conn);
-//                 $query_insert_issue_resource = mysqli_query($conn, "INSERT INTO `issue_resources`(`issue_id`, `resource_id`,`status`) VALUES ('$issue_id','$resource_id','Available')")
-//                 // $issue_id = mysqli_insert_id($conn);
-//                 // $resource_id = mysqli_insert_id($conn);
-//                 // $query_insert_ir = mysqli_query($conn, "INSERT INTO `issue_products`(`issue_id`, `product_id`, `shelves_id`, `created_date`, `update_date`, `quantity`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]')");
-//             }
-//         } echo "<script>alert('Update Successfully!')</script>";
-//     }
-//     }
-// }
 if (isset($_POST['submit'])) {
     $check_box = [];
 
@@ -156,12 +116,12 @@ if (isset($_POST['submit'])) {
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <!-- <div class="preloader">
+    <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
-    </div> -->
+    </div>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -174,18 +134,7 @@ if (isset($_POST['submit'])) {
         include './header.php';
         include './sidebar_left.php';
         ?>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
+        
         <div class="page-wrapper">
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
@@ -206,12 +155,7 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
+
             <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
@@ -221,15 +165,11 @@ if (isset($_POST['submit'])) {
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <!-- <h4 class="card-title">Basic Table</h4>
-                                <h6 class="card-subtitle">Add class <code>.table</code></h6> -->
-                                <!-- 
-                                <table class="table user-table"> -->
+                                <h4 class="card-title">Inventory</h4>
+                                <h6 class="card-subtitle">Inventory <code>.table</code></h6>
+                                
                                 <form method="POST">
-                                    <!-- <h4 class="card-title">Basic Table</h4> -->
-                                    <!-- <h6 class="card-subtitle">Add class <code>.table</code></h6> -->
-
-
+                                    
                                     <table class="table user-table">
                                         <thead>
                                             <tr style="text-align: center;">
@@ -276,23 +216,8 @@ if (isset($_POST['submit'])) {
                                                     <td>
                                                         <?php echo $row['inventory_capacity']; ?>
                                                     </td>
-                                                    <!-- <td style="width: 13%; text-align: center;">
-                                                            <a
-                                                                href="./edit_acc.php?resource_id=<?php // echo $row['resource_id'] ?>&resource_supplier_id=<?php //echo $_SESSION['resource_supplier_id'] ?>">
-                                                                Cập Nhật
-                                                            </a>
-                                                        </td> -->
-                                                    <!-- <td style="width: 5%; text-align: center;">
-                                                        <a href="?update_resource_id=<?php //echo $row['resource_id']; ?>"
-                                                            onclick="return confirm('Accept?')">
-                                                            Chấp nhận
-                                                        </a>
-                                                    </td> -->
-                                                    <!-- <td style="width: 5%; text-align: center;">
-                                                        <a href="?remove_resource_id=<?php //echo $row['resource_id']; ?>"
-                                                            onclick="return confirm('Reject?')">
-                                                            Xóa
-                                                        </a> -->
+                                                    
+                                                    <!--select kệ giống select kho  -->
                                                     </td>
                                                 </tr>
                                             <?php }

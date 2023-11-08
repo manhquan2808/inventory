@@ -4,7 +4,12 @@ include("../assets/connect/connect.php");
 
 $id= $_SESSION['director_id'];
 ?>
-
+<?php
+if (!isset($_SESSION['director_id'])) {
+    header('location:../');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 

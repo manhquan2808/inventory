@@ -66,10 +66,10 @@ if (isset($_REQUEST['employee_id'])) {
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
     <!-- <link rel="stylesheet" href="../assets/css/login.css"> -->
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/logo96x96.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
-    
+
 </head>
 <style>
     /* CSS cho form Create Account */
@@ -160,7 +160,7 @@ if (isset($_REQUEST['employee_id'])) {
         include './sidebar_left.php';
         ?>
         <div class="page-wrapper">
-         
+
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
@@ -168,10 +168,10 @@ if (isset($_REQUEST['employee_id'])) {
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Account</li>
-                                    <li class="breadcrumb-item active" aria-current="page">List Account</li>
-                                    <li class="breadcrumb-item active" aria-current="page">Edit Account</li>
+                                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Tài khoản</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Danh sách tài khoản</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa tài khoản</li>
                                 </ol>
                             </nav>
                         </div>
@@ -179,69 +179,69 @@ if (isset($_REQUEST['employee_id'])) {
                 </div>
             </div>
             <div class="container-fluid">
-              
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <form class="form" method="POST">
-                                <p id="heading">UPDATE INFORMATION</p>
+                                <p id="heading">Chỉnh sửa thông tin</p>
                                 <!-- Hiển thị thông tin nhân viên và cho phép chỉnh sửa -->
-                                <label for="fname">First Name</label>
+                                <label for="fname">Họ và Tên Đệm</label>
                                 <div class="field">
                                     <input autocomplete="off" placeholder="First Name" id="fname" name="fname"
                                         class="input-field" type="text" value="<?php echo $employee['first_name']; ?>"
                                         disabled>
                                 </div>
-                                <label for="lname">Last Name</label>
+                                <label for="lname">Tên</label>
                                 <div class="field">
                                     <input autocomplete="off" placeholder="Last Name" id="lname" name="lname"
                                         class="input-field" type="text" value="<?php echo $employee['last_name']; ?>"
                                         disabled>
                                 </div>
-                                <label for="number">Number</label>
+                                <label for="number">Số điện thoại</label>
                                 <div class="field">
                                     <input autocomplete="off" placeholder="Number" id="number" name="number"
                                         class="input-field" type="text" value="<?php echo $employee['number']; ?>">
                                 </div>
-                                <label for="uname">Username</label>
+                                <label for="uname">Email</label>
                                 <div class="field">
                                     <input autocomplete="off" placeholder="Username" id="uname" name="uname"
                                         class="input-field" type="text" value="<?php echo $employee['email']; ?>">
                                 </div>
-                                <label for="password">Password</label>
+                                <label for="password">Mật khẩu</label>
                                 <div class="field">
                                     <input autocomplete="off" placeholder="Password" id="password" name="password"
                                         class="input-field" type="password"
                                         value="<?php echo $employee['password']; ?>">
                                 </div>
-                                <label for="birthdate">Date of Birth</label>
+                                <label for="birthdate">Ngày sinh</label>
                                 <div class="field">
                                     <input autocomplete="off" placeholder="Date of Birth" id="birthdate"
                                         name="birthdate" class="input-field" type="date"
                                         value="<?php echo $employee['birthdate']; ?>">
                                 </div>
-                                <label for="roles">Roles</label>
+                                <label for="roles">Chức vụ</label>
                                 <div class="field">
-                                    <select name="roles" id="roles">
-                                        <option value="NV" <?php if ($employee['roles'] === 'NV')
-                                            echo 'selected'; ?>>Nhân
-                                            Viên</option>
-                                        <option value="QL" <?php if ($employee['roles'] === 'QL')
-                                            echo 'selected'; ?>>Quản
-                                            Lý</option>
-                                        <option value="SALE" <?php if ($employee['roles'] === 'SALE')
-                                            echo 'selected'; ?>>Nhân viên bán hàng</option>
+                                    <select name="lvl1" id="lvl1" required>
+                                    <option value="select">Chọn chức vụ</option>
+                                    <?php
+                                        $select_roles = mysqli_query($conn, "SELECT * FROM `roles` where `nickname` like '%NV%'");
+                                        while ($row_roles = mysqli_fetch_assoc($select_roles)) {
+                                            ?>
+                                            
+                                            <option value="<?php echo $row_roles['role_id'] ?>"><?php echo $row_roles['role_name']; ?> </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="button1">
-                                    <input value="Update" class="submit button1" name="submit" type="submit">
+                                    <input value="Cập nhật" class="submit button1" name="submit" type="submit">
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
             </footer>
         </div>
     </div>

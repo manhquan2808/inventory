@@ -112,10 +112,10 @@ if (!isset($_SESSION['resource_supplier_id'])) {
                                     <?php
                                     if (isset($_REQUEST['update_resource_id'])) {
                                         $update = $_REQUEST['update_resource_id'];
-                                        mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Đơn hàng đang được giao' WHERE `resource`.`resource_id` = '$update'");
+                                        mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Accept' WHERE `resource`.`resource_id` = '$update'");
                                     } elseif (isset($_REQUEST['remove_resource_id'])) {
                                         $remove = $_REQUEST['remove_resource_id'];
-                                        mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Đơn hàng đã bị từ chối' WHERE `resource`.`resource_id` = '$remove'");
+                                        mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Reject' WHERE `resource`.`resource_id` = '$remove'");
                                     }
                                     $result = mysqli_query($conn, "SELECT * FROM `resource`
                                                                 where `status` like 'Require'
@@ -126,8 +126,8 @@ if (!isset($_SESSION['resource_supplier_id'])) {
                                     ?>
                                     <table class="table user-table">
                                         <thead>
-                                            <tr>
-                                                <th></th>
+                                            <tr style="text-align: center;">
+                                                <th>Num</th>
                                                 <th class="border-top-0">Resource Name</th>
                                                 <th class="border-top-0">Quantity</th>
                                                 <th class="border-top-0">Status</th>
@@ -161,13 +161,13 @@ if (!isset($_SESSION['resource_supplier_id'])) {
                                                 $data = [];
                                                 while ($row = mysqli_fetch_array($result)) {
                                                     $data[] = $row;
-                                                  
+                                                  $count = 1; 
                                                 ?>
-                                                <tr class="action">
-                                                    <td></td>
-                                                    <td><input type="checkbox" name="<?php echo $row['resource_id'] ?>"
+                                                <tr class="action" style="text-align: center;">
+                                                    <td><?php echo $count++; ?></td>
+                                                    <!-- <td><input type="checkbox" name="<?php echo $row['resource_id'] ?>"
                                                             value="<?php echo $row['resource_id'] ?>">
-                                                    </td>
+                                                    </td> -->
                                                     <td style="text-align: center;">
                                                         <!-- // <th colspan='2'>Update</th> -->
                                                         <?php echo $row['resource_name']; ?>

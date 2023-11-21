@@ -14,6 +14,12 @@ if (isset($_SESSION['employee_id'])) {
 } elseif (isset($_SESSION['nvl_id'])) {
   header("location:./resource_department.php");
   exit();
+}elseif (isset($_SESSION['director_id'])) {
+  header("location:./director/index.php");
+  exit();
+}elseif (isset($_SESSION['manager_product_id'])) {
+  header("location:./manager_product/index.php");
+  exit();
 }
 ?>
 
@@ -27,30 +33,29 @@ if (isset($_POST["submit"])) {
       alert("Nhập đầy đủ thông tin")
       </script>';
   } else {
-    $query = mysqli_query($conn, "SELECT * FROM `employee` WHERE `email` = '$uname' limit 1"); // Liên kết CSDL
+    $query = mysqli_query($conn, "SELECT * FROM `employee`
+                                  join `roles` on `roles`.`role_id` = `employee`.`role_id`
+                                  WHERE `email` = '$uname' limit 1"); // Liên kết CSDL
 
 
     if (mysqli_num_rows($query) > 0) { // Kiểm tra dữ liệu có hay không
       $row = mysqli_fetch_assoc($query); // Lưu dữ liệu dưới dạng object
       if (password_verify($password, $row['password'])) {
-        if ($row['roles'] === 'NV') {
+        if ($row['nickname'] === 'NV') {
           $_SESSION['employee_id'] = $row['employee_id'];
           header('location:employee.php');
-        } elseif ($row['roles'] === 'QL') {
+        } elseif ($row['nickname'] === 'QL_NVL') {
           $_SESSION['manager_id'] = $row['employee_id'];
           header('location:manager');
-        } elseif ($row['roles'] === 'SALE') {
-          $_SESSION['sale_id'] = $row['employee_id'];
-          header('location:sale.php');
-        } elseif ($row['roles'] === 'NVL') {
+        } elseif ($row['nickname'] === 'NVL') {
           $_SESSION['nvl_id'] = $row['employee_id'];
           header('location:resource_department');
-        } elseif ($row['roles'] === 'BGD') {
+        } elseif ($row['nickname'] === 'BGD') {
           $_SESSION['director_id'] = $row['employee_id'];
           header('location:director');
-        } elseif ($row['roles'] === 'CC') {
-          $_SESSION['resource_supplier_id'] = $row['employee_id'];
-          header('location:resource_supplier');
+        }elseif ($row['nickname'] === 'QL_TP') {
+          $_SESSION['manager_product_id'] = $row['employee_id'];
+          header('location:manager_product');
         }
       } else {
         echo '<script>

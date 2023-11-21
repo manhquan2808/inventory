@@ -12,21 +12,21 @@ if (!isset($_SESSION['manager_id'])) {
 ?>
 
 <?php 
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-  if($check !== false) {
-    echo "File is an image - " . $check["mime"] . ".";
-    $uploadOk = 1;
-  } else {
-    echo "File is not an image.";
-    $uploadOk = 0;
-  }
-}
+// $target_dir = "uploads/";
+// $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+// $uploadOk = 1;
+// $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// // Check if image file is a actual image or fake image
+// if(isset($_POST["submit"])) {
+//   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+//   if($check !== false) {
+//     echo "File is an image - " . $check["mime"] . ".";
+//     $uploadOk = 1;
+//   } else {
+//     echo "File is not an image.";
+//     $uploadOk = 0;
+//   }
+// }
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +45,7 @@ if(isset($_POST["submit"])) {
     <title>Material Pro Lite Template by WrapPixel</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/logo96x96.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
 </head>
@@ -225,7 +225,7 @@ if(isset($_POST["submit"])) {
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

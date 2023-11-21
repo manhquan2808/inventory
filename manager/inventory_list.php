@@ -12,11 +12,6 @@ if (!isset($_SESSION['manager_id'])) {
 ?>
 
 <?php
-
-if (isset($_REQUEST['remove_resource_id'])) {
-    $remove = $_REQUEST['remove_resource_id'];
-    mysqli_query($conn, "UPDATE `resource` set `resource`.`status` = 'Đơn hàng đã bị từ chối' WHERE `resource`.`resource_id` = '$remove'");
-}
 $result = mysqli_query($conn, "SELECT * FROM `resource`
                         where `status` like 'Accept'
                         ORDER BY `created_time` desc");
@@ -72,7 +67,7 @@ if (isset($_POST['submit'])) {
     <title>Material Pro Lite Template by WrapPixel</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/logo96x96.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -116,12 +111,12 @@ if (isset($_POST['submit'])) {
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <div class="preloader">
+    <!-- <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -134,7 +129,7 @@ if (isset($_POST['submit'])) {
         include './header.php';
         include './sidebar_left.php';
         ?>
-        
+
         <div class="page-wrapper">
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
@@ -142,13 +137,14 @@ if (isset($_POST['submit'])) {
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Resource</h3>
+                        <h3 class="page-title mb-0 p-0">Nguyên vật liệu</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Resource</li>
-                                    <li class="breadcrumb-item active" aria-current="page">Distribution Resource</li>
+                                    <li class="breadcrumb-item"><a href="#">Trang Chủ</a></li>
+                                    <!-- <li class="breadcrumb-item active" aria-current="page">Kho nguyên vật liệu</li> -->
+                                    <li class="breadcrumb-item active" aria-current="page">Danh sách kho nguyên vật liệu
+                                    </li>
                                 </ol>
                             </nav>
                         </div>
@@ -165,20 +161,22 @@ if (isset($_POST['submit'])) {
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Inventory</h4>
-                                <h6 class="card-subtitle">Inventory <code>.table</code></h6>
-                                
+                                <h2 class="card-title" style="text-align: center;">Kho Nguyên Vật Liệu</h2>
+                                <!-- <h6 class="card-subtitle">Inventory <code>.table</code></h6> -->
+
                                 <form method="POST">
-                                    
+
                                     <table class="table user-table">
                                         <thead>
                                             <tr style="text-align: center;">
-                                                <th></th>
+                                                <th>#</th>
                                                 <!-- <th class="border-top-0">ID</th> -->
-                                                <th class="border-top-0">Inventory Name</th>
-                                                <th class="border-top-0">Adress</th>
-                                                <th class="border-top-0">Status</th>
-                                                <th class="border-top-0">Shelves Quantity</th>
+                                                <th class="border-top-0">Tên kho</th>
+                                                <th class="border-top-0">Địa chỉ</th>
+                                                <!-- <th class="border-top-0">Trạng thái</th> -->
+                                                <th class="border-top-0">Sức chứa</th>
+                                                <th class="border-top-0">Thao tác</th>
+                                            </tr>
                                                 <!-- <th class="border-top-0" colspan="2">Update</th> -->
                                             </tr>
                                         </thead>
@@ -188,8 +186,17 @@ if (isset($_POST['submit'])) {
                                                 $remove = $_REQUEST['remove_employee_id'];
                                                 mysqli_query($conn, "DELETE FROM `employee` WHERE `employee`.`employee_id` = '$remove'");
                                             }
-                                            $result = mysqli_query($conn, "SELECT *, (`inventory`.`shelves_quantity` * `shelves`.`capacity`) AS inventory_capacity  FROM `inventory` 
+                                            $result = mysqli_query($conn, "SELECT *, SUM(`shelves`.`capacity`) AS inventory_capacity, sum(`shelves`.`capacity`) as shelves_capacity, `inventory_details`.`employee_id` 
+                                                                        --      CASE
+                                                                        --     WHEN inventory_capacity > 0 THEN 'Còn trống'
+                                                                        --     WHEN inventory_capacity = 0 THEN 'Kho đầy'
+                                                                        --     ELSE 'The quantity is under 30'
+                                                                        -- END AS status_inventory  
+                                                                        FROM `inventory` 
                                                                         join `shelves` on `inventory`.`inventory_id` = `shelves`.`inventory_id`
+                                                                        join `inventory_details` on `inventory_details`.`inventory_id` = `inventory`.`inventory_id`
+                                                                        -- join `inventory_details` on `inventory_details`.`employee_id` = `employee`.`employee_id`
+                                                                        where `inventory_details`.`employee_id` = '$id'
                                                                         GROUP BY 
                                                                        `inventory`.`inventory_id`,
                                                                         `inventory`.`inventory_name` ");
@@ -201,8 +208,11 @@ if (isset($_POST['submit'])) {
 
                                                 ?>
                                                 <tr class="action" style="text-align: center;">
-                                                    <td><input type="checkbox" name="<?php echo $row['inventory_id'] ?>"
-                                                            value="<?php echo $row['inventory_id'] ?>">
+                                                    <!-- <td><input type="checkbox" name="<?php echo $row['inventory_id'] ?>"
+                                                            value="<?php //echo $row['inventory_id'] ?>">
+                                                    </td> -->
+                                                    <td>
+                                                        <?php echo $count++; ?>
                                                     </td>
                                                     <td>
                                                         <?php echo $row['inventory_name']; ?>
@@ -210,14 +220,20 @@ if (isset($_POST['submit'])) {
                                                     <td>
                                                         <?php echo $row['adress']; ?>
                                                     </td>
+                                                    <!-- <td>
+                                                        <?php //echo $row['status_inventory']; ?>
+                                                    </td> -->
                                                     <td>
-                                                        <?php echo $row['status']; ?>
+                                                        <?php echo $row['shelves_capacity']; ?>
                                                     </td>
-                                                    <td>
-                                                        <?php echo $row['inventory_capacity']; ?>
-                                                    </td>
-                                                    
+
                                                     <!--select kệ giống select kho  -->
+                                                    </td>
+                                                    <td style="width: 13%; text-align: center;">
+                                                        <a
+                                                            href="./inventory_details.php?inventory_id=<?php echo $row['inventory_id'] ?>&manager_id=<?php echo $_SESSION['manager_id'] ?>">
+                                                            Xem
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             <?php }
@@ -226,24 +242,24 @@ if (isset($_POST['submit'])) {
                                         </tbody>
                                     </table>
                                     <div class="slc-ivn">
-                                        <select name="Inventory_name" id="Inventory_name" class="field">
-                                            <option value="" hidden>Choose Inventory</option>
+                                        <!-- <select name="Inventory_name" id="Inventory_name" class="field">
+                                            <option value="" hidden>Choose Shelves</option>
                                             <?php
-                                            $Inventory_name = array();
+                                            // $Inventory_name = array();
 
-                                            $query = "SELECT `Inventory`.`Inventory_id`, `Inventory`.`Inventory_name` FROM `Inventory`
-                                                      join `shelves` on `inventory`.`inventory_id` = `shelves`.`inventory_id`";
-                                            $result = mysqli_query($conn, $query);
+                                            // $query = "SELECT `Inventory`.`Inventory_id`, `Inventory`.`Inventory_name`, `shelves`.`shelves_name` FROM `Inventory`
+                                            //           join `shelves` on `inventory`.`inventory_id` = `shelves`.`inventory_id`";
+                                            // $result = mysqli_query($conn, $query);
 
-                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                echo '<option value="' . $row['`Inventory`.`Inventory_id`'] . '" >' . $row["`Inventory`.`Inventory_name`"] . '</option>';
+                                            // while ($row = mysqli_fetch_assoc($result)) {
+                                            //     echo '<option value="' . $row['`Inventory`.`Inventory_id`'] . '" >' . $row['Inventory_name'] . ' - ' . $row['shelves_name'] . '</option>';
 
-                                            }
+                                            // }
 
                                             ?>
-                                        </select>
+                                        </select> -->
                                     </div>
-                                    <div class="button1">
+                                    <!-- <div class="button1">
                                         <input type="submit" class="submit button1" value="Nhập kho" name="submit"
                                             style="background-color: #26c6da;
                                                         color: #fff;
@@ -253,7 +269,7 @@ if (isset($_POST['submit'])) {
                                                         cursor: pointer;
                                                         font-size: 16px;
                                                     ">
-                                    </div>
+                                    </div> -->
                                 </form>
                             </div>
                         </div>
@@ -277,7 +293,7 @@ if (isset($_POST['submit'])) {
         <!-- ============================================================== -->
         <!-- footer -->
         <!-- ============================================================== -->
-        <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+        <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
         </footer>
         <!-- ============================================================== -->
         <!-- End footer -->

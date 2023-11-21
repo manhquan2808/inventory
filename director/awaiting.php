@@ -30,20 +30,24 @@ if (isset($_POST['submit'])) {
 
     while ($row_check = mysqli_fetch_assoc($result)) {
         // Xử lý submit ở đây
+        
         if (isset($_POST[$row_check['resource_id']])) {
             array_push($check_box, $_POST[$row_check['resource_id']]);
+        }
+        else{
+            
         }
     }
     
     if (isset($_POST['Inventory_name']) && count($check_box) > 0) {
         $inventory_id = $_POST['Inventory_name'];
-        
+        // array(1,2,3,4)=> ("0"=>1,"1")
+        // array("Inventory_name" => "123")
         // Tạo một issue mới
         $query_insert_issue = mysqli_query($conn, "INSERT INTO `issue`(`issue_type`, `status`, `inventory_id`) VALUES ('Nguyên vật liệu', 'Nhập', '$inventory_id')");
         
         // Lấy issue_id vừa được tạo
         $issue_id = mysqli_insert_id($conn);
-
         foreach ($check_box as $key => $value) {
             $sql = "UPDATE `resource` SET status='Distributed' WHERE resource_id=$value";
             

@@ -43,6 +43,12 @@ if ($id) {
             header('location:./');
             
         }
+    } else if (isset($_SESSION['manager_product_id'])) {
+        if ($_SESSION['manager_product_id'] === $id) {
+            unset($_SESSION['manager_product_id']);
+            header('location:./');
+            
+        }
     }
 } else {
     header('localtion:page-error-404');

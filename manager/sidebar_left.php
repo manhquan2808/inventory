@@ -25,7 +25,7 @@
                 </li> -->
 
 
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="inventory_list.php"
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../manager/inventory_list.php"
                         aria-expanded="false"><i class="mdi me-2 mdi-store"></i><span
                             class="hide-menu">Inventory</span></a></li>
 
@@ -39,12 +39,27 @@
                             class="hide-menu">Account</span></a>
                     <ul>
                         <li class="sidebar-item">
-                            <a href="add_acc.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
+                            <a href="../manager/add_acc.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
                                     class="mdi me-2 mdi-album"></i><span class="hide-menu">Add Account</span></a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="list_acc.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
+                            <a href="../manager/list_acc.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
                                     class="mdi me-2 mdi-album"></i> <span class="hide-menu">List Account</span></a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="#" aria-expanded="false"><i class="mdi me-2 mdi-reproduction"></i><span
+                            class="hide-menu">Product</span></a>
+                    <ul>
+                        <li class="sidebar-item">
+                            <a href="../product_manager/add_product.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
+                                    class="mdi me-2 mdi-album"></i><span class="hide-menu">Add Product</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="../product_manager/list_product.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
+                                    class="mdi me-2 mdi-album"></i> <span class="hide-menu">List Product</span></a>
                         </li>
                     </ul>
 

@@ -18,7 +18,7 @@
                 <!-- Logo text -->
                 <span class="logo-text">
                     <!-- dark Logo text -->
-                    <img src="../assets/images/logo-light-text.png" alt="homepage" class="dark-logo" />
+                    <img width="100%" src="../assets/images/logo/logo2.1.png" alt="homepage" class="dark-logo" />
 
                 </span>
             </a>
@@ -35,7 +35,7 @@
             <ul class="navbar-nav me-auto mt-md-0 ">
 
                 <li class="nav-item search-box">
-                    <a class="nav-link text-muted" href="javascript:void(0)"><i class="ti-search"></i></a>
+                    <!-- <a class="nav-link text-muted" href="javascript:void(0)"><i class="ti-search"></i></a> -->
                     <form class="app-search" style="display: none;">
                         <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i
                                 class="ti-close"></i></a>
@@ -47,7 +47,7 @@
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="mdi me-2 mdi-account-circle" style="font-size: xx-large;"></i>

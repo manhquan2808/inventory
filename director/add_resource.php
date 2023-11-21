@@ -11,37 +11,55 @@ if (!isset($_SESSION['director_id'])) {
 }
 ?>
 <?php
-
+$result = mysqli_query($conn, "SELECT * FROM `resource`");
 if (isset($_POST['submit'])) {
-
-
-    $resource_name = mysqli_escape_string($conn, $_POST['resource_name']);
-    $quantity = mysqli_escape_string($conn, $_POST['quantity']);
-    // $Inventory_name = mysqli_escape_string($conn, $_POST['Inventory_name']);
-    if (empty($resource_name) || empty($quantity)) {
-        echo
-            "<script>
-                alert ('Nhập đầy đủ thông tin');
-            </script>";
-    } else {
-        if (
-            mysqli_query($conn, "INSERT INTO `resource`(`resource_name`, `quantity`, `status`,`expiration_time`) 
-            VALUES ('$resource_name',$quantity, 'Require' ,DATE_ADD(CURDATE(),INTERVAL 365 DAY))")
-        ) {
-            echo "<script>
-                        alert('Thêm thành công');
-                    </script>";
-            // header("location:?action=done");
-        } else {
-            // Handle the error if the first INSERT query fails.
-            echo 'Có lỗi xảy ra';
+    $check_box = [];
+    while ($row_check = mysqli_fetch_assoc($result)) {
+        if (isset($_POST[$row_check['resource_id']])) {
+            array_push($check_box, $_POST[$row_check['resource_id']]);
         }
     }
+    if (count($check_box) > 0) {
+
+        foreach ($check_box as $key => $value) {
+            $update_status_ex = mysqli_query($conn, "UPDATE `resource` set `status` = 'Yêu cầu xuất NVL' where `resource_id` = $value");
+            // $update_status_ex = mysqli_query($conn, "UPDATE `resource` SET `status` = 'Yêu cầu xuất' where `resource_id` = $value");
+        }
+    }
+} else {
+    // echo "<script>alert('Thất bại')</script>";
 }
-if (isset($_POST['submit1'])) {
-    header("location:list_resource.php");
-}
-unset($_REQUEST);
+
+// if (isset($_POST['submit'])) {
+
+
+//     $resource_name = mysqli_escape_string($conn, $_POST['resource_name']);
+//     $quantity = mysqli_escape_string($conn, $_POST['quantity']);
+//     // $Inventory_name = mysqli_escape_string($conn, $_POST['Inventory_name']);
+//     if (empty($resource_name) || empty($quantity)) {
+//         echo
+//             "<script>
+//                 alert ('Nhập đầy đủ thông tin');
+//             </script>";
+//     } else {
+//         if (
+//             mysqli_query($conn, "INSERT INTO `resource`(`resource_name`, `quantity`, `status`,`expiration_time`) 
+//             VALUES ('$resource_name',$quantity, 'Require' ,DATE_ADD(CURDATE(),INTERVAL 365 DAY))")
+//         ) {
+//             echo "<script>
+//                         alert('Thêm thành công');
+//                     </script>";
+//             // header("location:?action=done");
+//         } else {
+//             // Handle the error if the first INSERT query fails.
+//             echo 'Có lỗi xảy ra';
+//         }
+//     }
+// }
+// if (isset($_POST['submit1'])) {
+//     header("location:list_resource.php");
+// }
+// unset($_REQUEST);
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -58,6 +76,9 @@ unset($_REQUEST);
     <meta name="robots" content="noindex,nofollow">
     <title>Material Pro Lite Template by WrapPixel</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="../assets/css/login.css"> -->
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
@@ -202,14 +223,14 @@ unset($_REQUEST);
                 <!-- ============================================================== -->
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <form method="POST">
+                        <div class="card" id="contact_form">
+                            <form method="POST" action="" name="">
                                 <!-- <div>
             <label>Resource Name</label>
             <input type="text" name="resource_name" id="resource_name"><br><br>
         </div> -->
-                                <label>Resource Name</label>
-                                <select name="resource_name" id="resource_name">
+                                <label>Chọn Nguyên Vật Liệu</label>
+                                <select name="resource_name" id="resource_name" class="resource_name">
                                     <option value="" hidden>Choose Resource</option>
                                     <?php
                                     $resource_name = array();
@@ -228,94 +249,54 @@ unset($_REQUEST);
                                     }
                                     ?>
                                 </select>
-                                <div class="error">
-                                    <label>Quantity</label>
-                                    <input type="number" name="quantity" class="input-field" id="quantity"><br><br>
-                                </div>
-                                <!-- <div>
-            <label>Inventory Name</label>
-            <select name="Inventory_name" id="Inventory_name">
-                <option value="" hidden>Choose Inventory</option>
-                <?php
-                // $Inventory_name = array();
-                
-                // $query = "SELECT Inventory_id, Inventory_name FROM `Inventory`";
-                // $result = mysqli_query($conn, $query);
-                
-                // while ($row = mysqli_fetch_assoc($result)) {
-                //     // array_push($Inventory_name, $row["Inventory_name"]);
-                //     //
-                //     // $result_iv = array_unique($Inventory_name);
-                //     echo '<option value="' . $row['Inventory_id'] . '" >' . $row["Inventory_name"] . '</option>';
-                
-                // }
-                
-                ?>
-            </select>
-        </div>
-        <div>
-            <label>Shelves</label>
-            <select name="shelves_name" id="shelves_name">
-                <option value="" hidden>Choose shelves</option>
-                <?php
-                // $shelves_name = array();
-                
-                // $query = "SELECT shelves_id, shelves_name FROM `shelves`";
-                // $result = mysqli_query($conn, $query);
-                
-                // while ($row = mysqli_fetch_assoc($result)) {
-                //     echo '<option value="' . $row['shelves_id'] . '" >' . $row["shelves_name"] . '</option>';
-                
-                // }
-                ?>
-            </select>
-        </div> -->
-                                <div class="button1">
-                                    <input type="submit" id="submit" class="submit button1" name="submit"
-                                        value="Submit">
-                                </div>
-                                <div class="button1">
-                                    <input type="submit" id="submit1" name="submit1" class="submit button1"
-                                        value="View List">
-                                </div>
 
-                            </form>
+                                <?php
+                                // if (isset($_POST['submit'])) {
+                                //     $check_box = [];
+                                //     while ($row_check = mysqli_fetch_assoc($result)) {
+                                //         if (isset($_POST[$row_check['resource_id']])) {
+                                //             array_push($check_box, $_POST[$row_check['resource_id']]);
+                                //         }
+                                //     }
+                                //     if (count($check_box) > 0) {
+
+                                //         foreach ($check_box as $key => $value) {
+                                //             $select_ex_re = mysqli_query($conn, "INSERT INTO `resource` where `resource_id` = $value");
+                                //             $update_status_ex = mysqli_query($conn, "UPDATE `resource` SET `status` = 'Yêu cầu xuất' where `resource_id` = $value");
+                                //         }
+                                //     }
+                                // } else {
+                                //     // echo "<script>alert('Thất bại')</script>";
+                                // } ?>
+                                <input type="hidden"><br><br><br>
+                   
+                                    <div id="txtHint"><b>Vui Lòng Chọn Nguyên Vật Liệu Để Hiển Thị Danh Sách</b></div>
+                                    
+                   
+                                <!-- <div class="button1">
+                                    <input type="button" id="submit" class="submit button1" name="submit"
+                                        value="Submit">
+                                </div> -->
+                                <!-- <div class="button1">
+                                    <input type="button" id="submit1" name="submit1" class="submit button1"
+                                        value="View List"> -->
                         </div>
+
+                        </form>
+
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+
+        <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+        </footer>
+
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+
+    </div>
+
     <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -326,6 +307,88 @@ unset($_REQUEST);
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
+<script>
+    // $(function () {
+    //     const getForm = async (name, quantity) => {
+    //         // let dataString = form.serialize();
+
+    //         const res = await $.ajax({
+    //             method: "POST",
+    //             url: "process.php",
+    //             dataType: "JSON",
+    //             data: {
+    //                 resource_name: name,
+    //                 quantity: quantity
+
+    //             }
+    //         })
+    //         return res
+
+    //     }
+
+    //     // $('form').validate();
+
+    //     $('#submit').on('click', function (e) {
+    //         // console.log(123)
+    //         let kho = $("#resource_name").val()
+    //         let quantity = $("#quantity").val()
+    //         e.preventDefault();
+
+    //         getForm(kho, quantity).then(function (data) {
+    //             console.log(data)
+    //             // $('#contact_form').html('<div id="message"></div>');
+
+    //             // $('#message')
+    //             //     .html('<h2>Contact Form Submitted</h2>')
+    //             //     .append('<p>We will be in touch</p>')
+    //             //     .hide()
+    //             //     .fadeIn(1500)
+    //         }).catch((e) => console.log(e))
+
+    //         // let dataString = $(this).serialize();
+
+    //         // $.ajax({
+    //         //     type: 'POST',
+    //         //     url: 'process.php',
+    //         //     data: dataString,
+    //         //     success: function () {
+
+
+    //         //     }
+    //         // });
+    //     });
+    // });
+</script>
+<script>
+    let selects = document.querySelector(".resource_name")
+    let text = document.querySelector("#txtHint")
+    selects.addEventListener("change", function () {
+        let str = selects.value
+        if (selects.value == "") {
+            document.getElementById("txtHint").innerHTML = "";
+            return;
+        }
+        var xmlhttp = new XMLHttpRequest();
+        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function () {
+            if (this.status == 200) {
+                text.innerHTML = this.responseText;
+            }
+            console.log(this)
+        }
+        xmlhttp.open("GET", `table_resource.php?q=${str}`, true);
+   
+        xmlhttp.send();
+    })
+    // console.log(this)
+</script>
 
 </html>

@@ -27,7 +27,7 @@ $id = $_SESSION['manager_id'];
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro-lite/" />
     <!-- <link rel="stylesheet" href="../assets/css/login.css"> -->
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/logo96x96.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
 </head>
@@ -39,12 +39,12 @@ $id = $_SESSION['manager_id'];
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <div class="preloader">
+    <!-- <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
-    </div>
+    </div> -->
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -102,26 +102,29 @@ $id = $_SESSION['manager_id'];
                                             $remove = $_REQUEST['remove_employee_id'];
                                             mysqli_query($conn, "DELETE FROM `employee` WHERE `employee`.`employee_id` = '$remove'");
                                         }
-                                        $result = mysqli_query($conn, "SELECT employee_id, first_name, last_name, `number`, email, birthdate, roles, CONCAT(first_name, ' ', last_name) 
-                                                                    AS full_name FROM employee where roles in ('NV', 'SALE', 'NVL');");
+                                        $result = mysqli_query($conn, "SELECT *, CONCAT(first_name, ' ', last_name) 
+                                                                    AS full_name 
+                                                                    FROM employee 
+                                                                    JOIN roles on `roles`.`role_id` = `employee`.`role_id`
+                                                                    where `roles`.`nickname` like ('%NV%');");
                                         ?>
                                         <table class="table user-table">
                                             <thead>
-                                                <tr>
-                                                    <th class="border-top-0">ID</th>
-                                                    <th class="border-top-0">Full Name</th>
-                                                    <th class="border-top-0">Number</th>
+                                                <tr style="text-align: center;">
+                                                    <th class="border-top-0">Mã NV</th>
+                                                    <th class="border-top-0">Họ và Tên</th>
+                                                    <th class="border-top-0">Số điện thoại</th>
                                                     <th class="border-top-0">Email</th>
-                                                    <th class="border-top-0">Birthdate</th>
-                                                    <th class="border-top-0">Roles</th>
-                                                    <th class="border-top-0" colspan="2">Update</th>
+                                                    <th class="border-top-0">Ngày Sinh</th>
+                                                    <th class="border-top-0">Chức vụ</th>
+                                                    <th class="border-top-0" colspan="2">Hành Động</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody >
                                                 <?php
                                                 while ($row = mysqli_fetch_array($result)) {
                                                     ?>
-                                                    <tr class="action">
+                                                    <tr class="action" style="text-align: center;">
                                                         <td>
                                                             <?php echo $row['employee_id']; ?>
                                                         </td>
@@ -138,7 +141,7 @@ $id = $_SESSION['manager_id'];
                                                             <?php echo $row['birthdate']; ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $row['roles']; ?>
+                                                            <?php echo $row['role_name']; ?>
                                                         </td>
                                                         <td style="width: 13%; text-align: center;">
                                                             <a
@@ -181,7 +184,7 @@ $id = $_SESSION['manager_id'];
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

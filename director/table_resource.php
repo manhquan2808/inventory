@@ -1,6 +1,7 @@
 <?php
 
 include '../assets/connect/connect.php';
+$lvl1_id = $_REQUEST['lvl1_id'];
 ?>
 
 
@@ -26,11 +27,17 @@ include '../assets/connect/connect.php';
 
 
 <?php
-$q = $_GET['q'];
+$q = $_REQUEST['q'];
 
 // mysqli_select_db($conn,"test.php");
-$sql = "SELECT *,DATE_FORMAT(`expiration_time`, '%d %M %Y') as date_expiration FROM `resource` where `resource_name` like '$q' and `status` = 'Đã lưu kho' order by date_expiration asc";
+$sql = "SELECT DISTINCT `resource_detail`.`inventory_id`, `resource`.`resource_name`, `resource_detail`.`resource_id`, `resource`.`quantity`,  `resource`.`status` ,DATE_FORMAT(`expiration_time`, '%d %M %Y') as date_expiration FROM `resource` 
+        JOIN `resource_detail` on `resource_detail`.`resource_id` = `resource`.`resource_id`
+        where `resource`.`resource_name` like '$q' 
+        and `resource`.`status` = 'Đã lưu kho' 
+        and `resource_detail`.`inventory_id` = $lvl1_id 
+        order by date_expiration asc";
 $result = mysqli_query($conn, $sql);
+// echo var_dump($result);
 
 echo " <div class='row'>
 <table>
@@ -43,6 +50,7 @@ echo " <div class='row'>
 
 </tr>";
 $count = 1;
+
 while ($row = mysqli_fetch_array($result)) {
 
   echo "<tr>";

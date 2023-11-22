@@ -19,8 +19,9 @@ if (isset($_POST['submit'])) {
             array_push($check_box, $_POST[$row_check['resource_id']]);
         }
     }
-    if (count($check_box) > 0) {
 
+
+    if (count($check_box) > 0) {
         foreach ($check_box as $key => $value) {
             $update_status_ex = mysqli_query($conn, "UPDATE `resource` set `status` = 'Yêu cầu xuất NVL' where `resource_id` = $value");
             // $update_status_ex = mysqli_query($conn, "UPDATE `resource` SET `status` = 'Yêu cầu xuất' where `resource_id` = $value");
@@ -229,50 +230,62 @@ if (isset($_POST['submit'])) {
             <label>Resource Name</label>
             <input type="text" name="resource_name" id="resource_name"><br><br>
         </div> -->
-                                <label>Chọn Nguyên Vật Liệu</label>
-                                <select name="resource_name" id="resource_name" class="resource_name">
-                                    <option value="" hidden>Choose Resource</option>
-                                    <?php
-                                    $resource_name = array();
-
-                                    $query = "SELECT resource_id, resource_name FROM `resource`";
-                                    $result = mysqli_query($conn, $query);
-
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        array_push($resource_name, $row["resource_name"]);
-                                        //
-                                        $result_rc = array_unique($resource_name);
-
-                                    }
-                                    foreach ($result_rc as $key => $value) {
-                                        echo '<option value="' . $value . '" >' . $value . '</option>';
-                                    }
-                                    ?>
-                                </select>
-
                                 <?php
-                                // if (isset($_POST['submit'])) {
-                                //     $check_box = [];
-                                //     while ($row_check = mysqli_fetch_assoc($result)) {
-                                //         if (isset($_POST[$row_check['resource_id']])) {
-                                //             array_push($check_box, $_POST[$row_check['resource_id']]);
-                                //         }
-                                //     }
-                                //     if (count($check_box) > 0) {
+                                $data = [];
+                                $result_inventory = mysqli_query($conn, "SELECT * FROM `inventory`");
+                                if (mysqli_num_rows($result_inventory)) {
+                                    while ($row_inventory = mysqli_fetch_assoc($result_inventory)) {
+                                        array_push($data, $row_inventory);
+                                    }
+                                }
+                                ?>
+                                <div class="field">
+                                    <label>Chọn Kho</label>
+                                    <select name="lvl1" id="lvl1">
+                                        <option value="">Chọn Kho</option>
+                                        <?php
+                                        foreach ($data as $key => $value) {
+                                            ?>
+                                            <option value="<?php echo $value['inventory_id'] ?>">
+                                                <?php echo $value['inventory_name'] ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Chọn Nguyên Vật Liệu</label>
+                                    <select name="lvl2" id="lvl2" class="resource_name">
+                                        <option value="" hidden>Choose Resource</option>
+                                        <?php
+                                        $resource_name = array();
 
-                                //         foreach ($check_box as $key => $value) {
-                                //             $select_ex_re = mysqli_query($conn, "INSERT INTO `resource` where `resource_id` = $value");
-                                //             $update_status_ex = mysqli_query($conn, "UPDATE `resource` SET `status` = 'Yêu cầu xuất' where `resource_id` = $value");
-                                //         }
-                                //     }
-                                // } else {
-                                //     // echo "<script>alert('Thất bại')</script>";
-                                // } ?>
-                                <input type="hidden"><br><br><br>
-                   
-                                    <div id="txtHint"><b>Vui Lòng Chọn Nguyên Vật Liệu Để Hiển Thị Danh Sách</b></div>
-                                    
-                   
+                                        $query = "SELECT resource_id, resource_name FROM `resource` ";
+                                        $result = mysqli_query($conn, $query);
+
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            array_push($resource_name, $row["resource_name"]);
+                                            //
+                                            $result_rc = array_unique($resource_name);
+
+                                        }
+                                        foreach ($result_rc as $key => $value) {
+                                            echo '<option value="' . $value . '" >' . $value . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <!-- <div class="field">
+                                <label>Chọn Nguyên Vật Liệu</label>
+                                    <select name="lvl2" id="lvl2" class="form-control">
+                                        <option value="select">Chọn Nguyên Vật Liệu</option>
+                                    </select>
+                                </div> -->
+
+
+                                <div id="txtHint"><b>Vui Lòng Chọn Nguyên Vật Liệu Để Hiển Thị Danh Sách</b></div>
+
+
                                 <!-- <div class="button1">
                                     <input type="button" id="submit" class="submit button1" name="submit"
                                         value="Submit">
@@ -316,6 +329,47 @@ if (isset($_POST['submit'])) {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 <script>
+
+
+
+    $(document).ready(function () {
+
+    });
+    
+    // console.log(lvl1_id)
+    $(document).on("change", "#lvl1", function (e) {
+        e.preventDefault();
+
+     
+
+
+        $.ajax({
+            url: "select_resource.php",
+            method: "post",
+            dataType: "json",
+            data: {
+                q: "",
+                lvl1_id: $("#lvl1").val()
+            },
+            success: function (data) {
+                lvl2_body = "";
+                console.log(data)
+                for (let i = 0; i < data.length; i++) {
+                    lvl2_body += `<option value="${data[i].resource_id}">${data[i].resource_name}</option>`;
+                }
+
+                $("#lvl2").html(lvl2_body);
+            }
+        });
+    });
+
+    $("#submit").on("click", function (e) {
+
+        if (!($("input[type=checkbox]").is(":checked"))) {
+            e.preventDefault();
+            alert("Vui lòng chọn nguyên vật liệu!");
+        }
+    });
     // $(function () {
     //     const getForm = async (name, quantity) => {
     //         // let dataString = form.serialize();
@@ -366,9 +420,10 @@ if (isset($_POST['submit'])) {
     //         // });
     //     });
     // });
+
 </script>
 <script>
-    let selects = document.querySelector(".resource_name")
+    let selects = document.querySelector("#lvl2")
     let text = document.querySelector("#txtHint")
     selects.addEventListener("change", function () {
         let str = selects.value
@@ -382,10 +437,10 @@ if (isset($_POST['submit'])) {
             if (this.status == 200) {
                 text.innerHTML = this.responseText;
             }
-            console.log(this)
+            // console.log(this.responseText)
         }
-        xmlhttp.open("GET", `table_resource.php?q=${str}`, true);
-   
+        xmlhttp.open("GET", `table_resource.php?q=${str}&lvl1_id=${$("#lvl1").val()}`, true);
+
         xmlhttp.send();
     })
     // console.log(this)

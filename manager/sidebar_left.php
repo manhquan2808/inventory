@@ -9,10 +9,9 @@
     }
 
 
-    .sidebar-link.waves-effect.waves-dark.sidebar-link{
+    .sidebar-link.waves-effect.waves-dark.sidebar-link {
         border-radius: 50px;
     }
- 
 </style>
 
 
@@ -32,9 +31,9 @@
                 </li> -->
 
 
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="#" aria-expanded="false"><i class="mdi me-2 mdi-store"></i><span
-                            class="hide-menu">Kho nguyên vật liệu</span></a>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
+                        aria-expanded="false"><i class="mdi me-2 mdi-store"></i><span class="hide-menu">Kho nguyên vật
+                            liệu</span></a>
                     <ul>
                         <li class="sidebar-item">
                             <a href="arrange_shelves.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
@@ -50,15 +49,18 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="up_load_file.php" aria-expanded="false"><i class="mdi me-2 mdi-import"></i><span
                             class="hide-menu">Nhập nguyên vật liệu</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="up_load_file.php" aria-expanded="false"><i class="mdi me-2 mdi-export"></i><span
+                            class="hide-menu">Xuất nguyên vật liệu</span></a></li>
 
 
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#.php"
-                        aria-expanded="false"><i class="mdi me-2 mdi-chart-areaspline"></i><span
-                            class="hide-menu">Thống Kê</span></a>
+                        aria-expanded="false"><i class="mdi me-2 mdi-chart-areaspline"></i><span class="hide-menu">Thống
+                            Kê</span></a>
                 </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
-                        aria-expanded="false"><i class="mdi me-2 mdi-clipboard-account"></i><span
-                            class="hide-menu">Tài Khoản</span></a>
+                        aria-expanded="false"><i class="mdi me-2 mdi-clipboard-account"></i><span class="hide-menu">Tài
+                            Khoản</span></a>
                     <ul>
                         <li class="sidebar-item">
                             <a href="add_acc.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
@@ -66,7 +68,8 @@
                         </li>
                         <li class="sidebar-item">
                             <a href="list_acc.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
-                                    class="mdi me-2 mdi-album"></i> <span class="hide-menu">Danh Sách Tài Khoản</span></a>
+                                    class="mdi me-2 mdi-album"></i> <span class="hide-menu">Danh Sách Tài
+                                    Khoản</span></a>
                         </li>
                     </ul>
 

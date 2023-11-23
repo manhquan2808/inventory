@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include("../assets/connect/connect.php");
 
@@ -11,7 +11,7 @@ if (!isset($_SESSION['manager_id'])) {
 }
 ?>
 
-<?php 
+<?php
 // $target_dir = "uploads/";
 // $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 // $uploadOk = 1;
@@ -27,6 +27,7 @@ if (!isset($_SESSION['manager_id'])) {
 //     $uploadOk = 0;
 //   }
 // }
+
 
 ?>
 <!DOCTYPE html>
@@ -54,12 +55,12 @@ if (!isset($_SESSION['manager_id'])) {
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <div class="preloader">
+    <!-- <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
-    </div>
+    </div> -->
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -68,7 +69,7 @@ if (!isset($_SESSION['manager_id'])) {
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        <?php 
+        <?php
         include './header.php';
         include './sidebar_left.php';
         ?>
@@ -109,6 +110,7 @@ if (!isset($_SESSION['manager_id'])) {
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
+
             <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
@@ -119,8 +121,8 @@ if (!isset($_SESSION['manager_id'])) {
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-body profile-card">
-                                <center class="mt-4"> <img src="../assets/images/users/5.jpg"
-                                        class="rounded-circle" width="150" />
+                                <center class="mt-4"> <img src="../assets/images/users/5.jpg" class="rounded-circle"
+                                        width="150" />
                                     <h4 class="card-title mt-2">Hanna Gover</h4>
                                     <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
                                     <form method="POST" enctype="multipart/form-data">
@@ -144,67 +146,68 @@ if (!isset($_SESSION['manager_id'])) {
                     </div>
                     <!-- Column -->
                     <!-- Column -->
+
                     <div class="col-lg-8 col-xlg-9 col-md-7">
                         <div class="card">
                             <div class="card-body">
                                 <form class="form-horizontal form-material mx-2">
-                                    <div class="form-group">
-                                        <label class="col-md-12 mb-0">Full Name</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="Johnathan Doe"
-                                                class="form-control ps-0 form-control-line">
+                                    <?php
+                                    $result = mysqli_query($conn, "SELECT *,CONCAT(`first_name` , ' ' , `last_name`) as `full_name` FROM `employee` where `employee_id` = '$id'");
+                                    while ($row = mysqli_fetch_assoc($result)) { ?>
+                                        <div class="form-group">
+                                            <label class="col-md-12 mb-0">Họ Và Tên</label>
+
+                                            <div class="col-md-12">
+
+                                                <input type="text" placeholder="<?php echo $row['full_name']; ?>"
+                                                    class="form-control ps-0 form-control-line" disabled>
+
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="example-email" class="col-md-12">Email</label>
-                                        <div class="col-md-12">
-                                            <input type="email" placeholder="johnathan@admin.com"
-                                                class="form-control ps-0 form-control-line" name="example-email"
-                                                id="example-email">
+                                        <div class="form-group">
+                                            <label for="example-email" class="col-md-12">Email</label>
+
+                                            <div class="col-md-12">
+                                                <input type="email" placeholder="<?php echo $row['email']; ?>"
+                                                    class="form-control ps-0 form-control-line" name="example-email"
+                                                    id="example-email" disabled>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12 mb-0">Password</label>
-                                        <div class="col-md-12">
-                                            <input type="password" value="password"
-                                                class="form-control ps-0 form-control-line">
+
+                                        <div class="form-group">
+                                            <label class="col-md-12 mb-0">Số Điện Thoại</label>
+
+                                            <div class="col-md-12">
+                                                <input type="text" placeholder="<?php echo $row['number'] ?>"
+                                                    class="form-control ps-0 form-control-line" disabled>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12 mb-0">Phone No</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="123 456 7890"
-                                                class="form-control ps-0 form-control-line">
+                                        <div class="form-group">
+                                            <label class="col-md-12 mb-0">Ngày Sinh</label>
+
+                                            <div class="col-md-12">
+                                                <input type="text" placeholder="<?php echo $row['birthdate'] ?>"
+                                                    class="form-control ps-0 form-control-line" disabled>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12 mb-0">Message</label>
-                                        <div class="col-md-12">
-                                            <textarea rows="5" class="form-control ps-0 form-control-line"></textarea>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12 d-flex">
+                                                <button type="submit" class="btn btn-success mx-auto mx-md-0 text-white"><a
+                                                        href="./re_pass.php" style="color: white;">Đổi Mật Khẩu</a></button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Select Country</label>
-                                        <div class="col-sm-12 border-bottom">
-                                            <select class="form-select shadow-none ps-0 border-0 form-control-line">
-                                                <option>London</option>
-                                                <option>India</option>
-                                                <option>Usa</option>
-                                                <option>Canada</option>
-                                                <option>Thailand</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-12 d-flex">
-                                            <button class="btn btn-success mx-auto mx-md-0 text-white">Update
-                                                Profile</button>
-                                        </div>
-                                    </div>
+                                    <?php } ?>
                                 </form>
                             </div>
                         </div>
                     </div>
+
                     <!-- Column -->
                 </div>
                 <!-- Row -->
@@ -219,13 +222,15 @@ if (!isset($_SESSION['manager_id'])) {
                 <!-- End Right sidebar -->
                 <!-- ============================================================== -->
             </div>
+
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
+            <footer class="footer"> © 2023 Inventory Management by <a
+                    href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

@@ -241,7 +241,7 @@ if (isset($_REQUEST['employee_id'])) {
                     </div>
                 </div>
             </div>
-            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
+            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">inventory_management </a>
             </footer>
         </div>
     </div>

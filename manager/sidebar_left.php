@@ -21,14 +21,6 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <!-- User Profile-->
-
-
-                <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
-                        aria-expanded="false"><i class="mdi me-2 mdi-material-ui"></i><span
-                            class="hide-menu">Resource</span></a>
-                    
-                </li> -->
 
 
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
@@ -49,15 +41,15 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="up_load_file.php" aria-expanded="false"><i class="mdi me-2 mdi-import"></i><span
                             class="hide-menu">Nhập nguyên vật liệu</span></a></li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="up_load_file.php" aria-expanded="false"><i class="mdi me-2 mdi-export"></i><span
-                            class="hide-menu">Xuất nguyên vật liệu</span></a></li>
+                            class="hide-menu">Xuất nguyên vật liệu</span></a></li> -->
 
 
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#.php"
+                <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#.php"
                         aria-expanded="false"><i class="mdi me-2 mdi-chart-areaspline"></i><span class="hide-menu">Thống
                             Kê</span></a>
-                </li>
+                </li> -->
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
                         aria-expanded="false"><i class="mdi me-2 mdi-clipboard-account"></i><span class="hide-menu">Tài
                             Khoản</span></a>
@@ -72,20 +64,12 @@
                                     Khoản</span></a>
                         </li>
                     </ul>
-
                 </li>
-                <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="icon-material.php" aria-expanded="false"><i class="mdi me-2 mdi-emoticon"></i><span
-                            class="hide-menu">Icon</span></a></li> -->
-
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="pages-profile.php" aria-expanded="false">
                         <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Trang cá nhân</span></a>
                 </li>
-
-
             </ul>
-
         </nav>
         <!-- End Sidebar navigation -->
 

@@ -27,7 +27,7 @@ $result = mysqli_query($conn, "SELECT `resource`.`resource_id`, `inventory_detai
                                 -- join `shelves` on `shelves`.`inventory_id` = `inventory`.`inventory_id`
                                 join `inventory_details` on `inventory_details`.`inventory_id` = `inventory`.`inventory_id`
                                 join `employee` on `inventory_details`.`employee_id` = `employee`.`employee_id`
-                                where  `resource`.`status` like 'Đã nhập kho'
+                                where  `resource`.`status` like 'Đã kiểm tra'
                                 and `inventory_details`.`employee_id` = '$id'
                                 ORDER BY `resource`.`created_time` DESC");
 if (isset($_POST['submit'])) {
@@ -56,10 +56,9 @@ if (isset($_POST['submit'])) {
                 // $newquantity = intval($quantity);
                 // echo var_dump($newquantity);
                 // update inventory
-                $insert_resource_detail = mysqli_query($conn, "INSERT INTO `resource_detail`(`resource_id`, `inventory_id`) values ($value, $inventory_id_resource_detail)");
+                
+
                 $query_insert_issue_rc = mysqli_query($conn, "INSERT into `issue_resources`(`resource_detail_id`, `shelves_id`,`status`) VALUES ($resource_detail_id, '$shelves_id', 'Nhập nguyên vật liệu')");
-
-
 
                 // $issue_id = mysqli_insert_id($conn);
 
@@ -73,7 +72,8 @@ if (isset($_POST['submit'])) {
                 $resource_id[] = $row_resouce['quantity'];
 
             }
-
+            // $insert_resource_detail = mysqli_query($conn, "INSERT INTO `resource_detail`(`resource_id`, `inventory_id`) values ($value, $inventory_id_resource_detail)");
+            
 
             // $quantity = $_POST['quantity'];
             foreach ($resource_id as $key => $value) {
@@ -299,7 +299,7 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
             <footer class="footer"> © 2023 Inventory Management by <a
-                    href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
+                    href="https://github.com/manhquan2808/inventory">inventory_management </a>
             </footer>
 
         </div>

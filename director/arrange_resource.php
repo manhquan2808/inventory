@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
         if (count($check_box) > 0) {
 
             foreach ($check_box as $key => $value) {
-                $update_resource = mysqli_query($conn, "UPDATE `resource` SET `status`='Đã nhập kho', `created_time` = NOW() 
+                $update_resource = mysqli_query($conn, "UPDATE `resource` SET `status`='Chờ nhập kho'
                                                         WHERE `resource_id`=$value");
                 // $shelves_id = $_POST['lvl2'];
                 // $quantity = $_POST['quantity'];

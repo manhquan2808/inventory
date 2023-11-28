@@ -7,7 +7,7 @@ if (!isset($_SESSION['manager_id'])) {
     header('location:../');
     exit();
 }
-$id = $_SESSION['manager_id'];
+// $id = $_SESSION['manager_id'];
 ?>
 
 <!DOCTYPE html>
@@ -102,11 +102,16 @@ $id = $_SESSION['manager_id'];
                                             $remove = $_REQUEST['remove_employee_id'];
                                             mysqli_query($conn, "DELETE FROM `employee` WHERE `employee`.`employee_id` = '$remove'");
                                         }
-                                        $result = mysqli_query($conn, "SELECT *, CONCAT(first_name, ' ', last_name) 
-                                                                    AS full_name 
-                                                                    FROM employee 
-                                                                    JOIN roles on `roles`.`role_id` = `employee`.`role_id`
-                                                                    where `roles`.`nickname` like ('%NV%');");
+                                        $get_inventory_id = mysqli_query($conn, "SELECT * FROM `inventory_details` 
+                                        where `employee_id` = '$id'") ;
+                                        $row_inventory = mysqli_fetch_assoc($get_inventory_id);
+                                        $inventory_id = $row_inventory['inventory_id'];
+                                        $result = mysqli_query($conn, "SELECT *, CONCAT(`first_name`, ' ', `last_name`) 
+                                                                    AS `full_name` 
+                                                                    FROM `employee` 
+                                                                    JOIN `roles` on `roles`.`role_id` = `employee`.`role_id`
+                                                                    JOIN `inventory_details` on `inventory_details`.`employee_id` = `employee`.`employee_id`
+                                                                    where `roles`.`nickname` like ('NV%') and `inventory_details`.`inventory_id` = $inventory_id;");
                                         ?>
                                         <table class="table user-table">
                                             <thead>
@@ -184,7 +189,7 @@ $id = $_SESSION['manager_id'];
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
+            <footer class="footer"> © 2023 Inventory Management by <a href="https://github.com/manhquan2808/inventory">inventory_management </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

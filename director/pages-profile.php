@@ -2,10 +2,10 @@
 session_start();
 include("../assets/connect/connect.php");
 
-$id = $_SESSION['manager_id'];
+$id = $_SESSION['director_id'];
 ?>
 <?php
-if (!isset($_SESSION['manager_id'])) {
+if (!isset($_SESSION['director_id'])) {
     header('location:../');
     exit();
 }
@@ -132,7 +132,7 @@ if(isset($_POST['submit'])){
                             while ($row = mysqli_fetch_assoc($result)) { ?>
                                 <div class="card">
                                     <div class="card-body profile-card">
-                                        <center class="mt-4"> <img src="<?php echo $row['avt']; ?>" class="rounded-circle"
+                                        <center class="mt-4"> <img src="../assets/images/users/avtthinh.png" class="rounded-circle"
                                                 width="150" />
                                             <h4 class="card-title mt-2"><?php echo $row ['full_name']; ?></h4>
                                             <h6 class="card-subtitle"><?php echo $row ['role_name']; ?></h6>
@@ -243,7 +243,7 @@ if(isset($_POST['submit'])){
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer"> © 2023 Inventory Management by <a
-                    href="https://github.com/manhquan2808/inventory">inventory_management </a>
+                    href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

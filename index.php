@@ -3,7 +3,7 @@ session_start();
 include './assets/connect/connect.php';
 
 if (isset($_SESSION['employee_id'])) {
-  header("location:./nhan_vien.php");
+  header("location:./employee_inventory/index.php");
   exit();
 } elseif (isset($_SESSION['manager_id'])) {
   header("location:./manager/index.php");
@@ -41,9 +41,9 @@ if (isset($_POST["submit"])) {
     if (mysqli_num_rows($query) > 0) { // Kiểm tra dữ liệu có hay không
       $row = mysqli_fetch_assoc($query); // Lưu dữ liệu dưới dạng object
       if (password_verify($password, $row['password'])) {
-        if ($row['nickname'] === 'NV') {
+        if ($row['nickname'] === 'NVK') {
           $_SESSION['employee_id'] = $row['employee_id'];
-          header('location:employee.php');
+          header('location:employee_inventory');
         } elseif ($row['nickname'] === 'QL_NVL') {
           $_SESSION['manager_id'] = $row['employee_id'];
           header('location:manager');

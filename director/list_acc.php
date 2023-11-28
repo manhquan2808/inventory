@@ -169,7 +169,8 @@ $id = $_SESSION['director_id'];
 
             </div>
             
-            <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+            <footer class="footer"> © 2023 Inventory Management by <a
+                    href="https://github.com/manhquan2808/inventory">inventory_management </a>
             </footer>
             
         </div>

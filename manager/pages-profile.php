@@ -27,7 +27,9 @@ if (!isset($_SESSION['manager_id'])) {
 //     $uploadOk = 0;
 //   }
 // }
+if(isset($_POST['submit'])){
 
+}
 
 ?>
 <!DOCTYPE html>
@@ -92,12 +94,12 @@ if (!isset($_SESSION['manager_id'])) {
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Profile</h3>
+                        <h3 class="page-title mb-0 p-0">Trang Cá Nhân</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                                    <li class="breadcrumb-item"><a href="#">Trang Chủ</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Trang Cá Nhân</li>
                                 </ol>
                             </nav>
                         </div>
@@ -117,18 +119,27 @@ if (!isset($_SESSION['manager_id'])) {
                 <!-- ============================================================== -->
                 <!-- Row -->
                 <div class="row">
+                
                     <!-- Column -->
                     <div class="col-lg-4 col-xlg-3 col-md-5">
-                        <div class="card">
-                            <div class="card-body profile-card">
-                                <center class="mt-4"> <img src="../assets/images/users/5.jpg" class="rounded-circle"
-                                        width="150" />
-                                    <h4 class="card-title mt-2">Hanna Gover</h4>
-                                    <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
-                                    <form method="POST" enctype="multipart/form-data">
-                                        <input type="submit" name="img" id="img" value="Update Profile Picture">
-                                    </form>
-                                    <!-- <div class="row text-center justify-content-center">
+                        <form method="POST">
+                            <?php
+                            
+                            $result = mysqli_query($conn, "SELECT *,CONCAT(`first_name` , ' ' , `last_name`) as `full_name` 
+                                                            FROM `employee` 
+                                                            JOIN `roles` on `roles`.`role_id` = `employee`.`role_id`
+                                                            where `employee`.`employee_id` = '$id'");
+                            while ($row = mysqli_fetch_assoc($result)) { ?>
+                                <div class="card">
+                                    <div class="card-body profile-card">
+                                        <center class="mt-4"> <img src="<?php echo $row['avt']; ?>" class="rounded-circle"
+                                                width="150" />
+                                            <h4 class="card-title mt-2"><?php echo $row ['full_name']; ?></h4>
+                                            <h6 class="card-subtitle"><?php echo $row ['role_name']; ?></h6>
+                                            <form method="POST" enctype="multipart/form-data">
+                                                <input type="submit" class="btn btn-success mx-auto mx-md-0 text-white" name="img" id="img" value="Update Profile Picture">
+                                            </form>
+                                            <!-- <div class="row text-center justify-content-center">
                                         <div class="col-4">
                                             <a href="javascript:void(0)" class="link">
                                                 <i class="icon-people" aria-hidden="true"></i>
@@ -139,10 +150,12 @@ if (!isset($_SESSION['manager_id'])) {
                                                 <i class="icon-picture" aria-hidden="true"></i>
                                                 <span class="value-digit">54</span>
                                             </a></div> -->
-                                    <!-- </div> -->
-                                </center>
-                            </div>
-                        </div>
+                                            <!-- </div> -->
+                                        </center>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </form>
                     </div>
                     <!-- Column -->
                     <!-- Column -->
@@ -230,7 +243,7 @@ if (!isset($_SESSION['manager_id'])) {
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer"> © 2023 Inventory Management by <a
-                    href="https://github.com/manhquan2808/inventory">ivnentory_management </a>
+                    href="https://github.com/manhquan2808/inventory">inventory_management </a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

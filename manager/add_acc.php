@@ -13,6 +13,10 @@ if (!isset($_SESSION['manager_id'])) {
 ?>
 
 <?php
+$result = mysqli_query($conn, "SELECT * FROM `inventory_details` 
+                                where `employee_id` = '$id'");
+$row = mysqli_fetch_assoc($result);
+$inventory_id = $row['inventory_id'];
 if (isset($_POST["submit"])) {
     $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
     $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
@@ -33,10 +37,14 @@ if (isset($_POST["submit"])) {
     } else {
         $select_nickname = mysqli_query($conn, "SELECT * FROM `roles` where `role_id` = $role_id");
         $row_nickname = mysqli_fetch_assoc($select_nickname);
-        $id = $row_nickname['nickname'] . rand(10000, 99999);
-        $query = mysqli_query($conn, "INSERT INTO `employee` (`employee_id`, `role_id`, `first_name`, `last_name`, `number`, `email`, 
-        `password`, `birthdate`) VALUES ('$id', '$role_id', '$fname', '$lname', '$number', '$uname', '$hash_pass', '$birthdate')");
-        if ($query) {
+        $employee_id = $row_nickname['nickname'] . rand(10000, 99999);
+        if (
+            $query = mysqli_query($conn, "INSERT INTO `employee` (`employee_id`, `role_id`, `first_name`, `last_name`, `number`, `email`, 
+        `password`, `birthdate`) VALUES ('$employee_id', '$role_id', '$fname', '$lname', '$number', '$uname', '$hash_pass', '$birthdate')")
+        ) {
+            $insert_employee = mysqli_query($conn, "INSERT INTO `inventory_details`(`inventory_id`, `employee_id`) VALUES($inventory_id, '$employee_id')");
+        }
+        if ($insert_employee) {
             echo '<script>
                     alert("Tạo tài khoản thành công");
                     window.location.href = "../manager";
@@ -224,13 +232,15 @@ if (isset($_POST["submit"])) {
                                 <label for="roles">Chức vụ</label>
                                 <div class="field">
                                     <select name="lvl1" id="lvl1" required>
-                                    <option value="select">Chọn chức vụ</option>
-                                    <?php
-                                        $select_roles = mysqli_query($conn, "SELECT * FROM `roles` where `nickname` like '%NV%'");
+                                        <option value="select">Chọn chức vụ</option>
+                                        <?php
+                                        $select_roles = mysqli_query($conn, "SELECT * FROM `roles` where `nickname` like 'NV%'");
                                         while ($row_roles = mysqli_fetch_assoc($select_roles)) {
                                             ?>
-                                            
-                                            <option value="<?php echo $row_roles['role_id'] ?>"><?php echo $row_roles['role_name']; ?> </option>
+
+                                            <option value="<?php echo $row_roles['role_id'] ?>">
+                                                <?php echo $row_roles['role_name']; ?>
+                                            </option>
                                         <?php } ?>
                                     </select>
                                 </div>

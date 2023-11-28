@@ -19,9 +19,7 @@ if (isset($_POST["submit"])) {
     $p_renew = mysqli_real_escape_string($conn, $_POST["password_renew"]);
 
     // $roles = mysqli_real_escape_string($conn, $_POST["roles"]);
-    $hash_pass_old = password_hash($p_old, PASSWORD_ARGON2I);
     $hash_pass_new = password_hash($p_new, PASSWORD_ARGON2I);
-    $hash_pass_renew = password_hash($p_renew, PASSWORD_ARGON2I);
 
 
 
@@ -34,7 +32,7 @@ if (isset($_POST["submit"])) {
         $select_nickname = mysqli_query($conn, "SELECT * FROM `employee` where `employee_id` = '$id'");
         $row_nickname = mysqli_fetch_assoc($select_nickname);
         // $id = $row_nickname['nickname'] . rand(10000, 99999);
-        if (!password_verify($p_old, $row_nickname['password'])) {
+        if (password_verify($p_old, $row_nickname['password']) === false) {
             echo '<script>
                     alert("Mật khẩu cũ không đúng");
                     </script>';
@@ -45,7 +43,7 @@ if (isset($_POST["submit"])) {
                 </script>';
             } else {
                 $query = mysqli_query($conn, "UPDATE `employee` set `password` = '$hash_pass_new' where `employee_id` = '$id'");
-                if ($query) {
+                if ($query === true) {
                     echo '<script>
                             alert("Thay đổi mật khẩu thành công");
                             window.location.href = "./pages-profile.php";

@@ -2,17 +2,17 @@
 session_start();
 include("../assets/connect/connect.php");
 
-$id = $_SESSION['manager_id'];
+$id = $_SESSION['director_id'];
 ?>
 <?php
-if (!isset($_SESSION['manager_id'])) {
+if (!isset($_SESSION['director_id'])) {
     header('location:../');
     exit();
 }
 ?>
 
 <?php
-$shelves_id = $_REQUEST['shelves_id'];
+$inventory = $_REQUEST['inventory_id'];
 
 $result = mysqli_query($conn, "SELECT `resource`.`resource_name`, `resource`.`quantity`, `resource`.`status`, DATE_FORMAT(`resource`.`created_time`, '%M %d %Y') as created_time, DATE_FORMAT(`resource`.`expiration_time`, '%M %d %Y') as expiration_time,`shelves`.`shelves_name`
 FROM `issue_resources`
@@ -20,9 +20,9 @@ JOIN `shelves` on `shelves`.`shelves_id` = `issue_resources`.`shelves_id`
 JOIN `resource_detail` on `resource_detail`.`id` = `issue_resources`.`resource_detail_id`
 JOIN `resource` on `resource`.`resource_id` = `resource_detail`.`resource_id`
 JOIN `inventory` on `inventory`.`inventory_id` = `shelves`.`inventory_id`
-WHERE `shelves`.`shelves_id` = $shelves_id
+WHERE `inventory`.`inventory_id` = $inventory
 GROUP BY `resource`.`resource_id`, `inventory`.`inventory_id`
-ORDER BY `resource`.`created_time` asc");
+ORDER BY `resource`.`resource_name`");
 $row = mysqli_fetch_array($result);
 ?>
 <!DOCTYPE html>
@@ -164,7 +164,30 @@ $row = mysqli_fetch_array($result);
                                             while ($row = mysqli_fetch_array($result)) {
 
                                                 ?>
-                                                
+                                                <!-- <tr class="action" style="text-align: center;"> -->
+                                                <!-- <td><input type="checkbox" name="<?php echo $row['inventory_id'] ?>"
+                                                            value="<?php //echo $row['inventory_id'] ?>">
+                                                    </td> -->
+                                                <!-- <td>
+                                                        <?php //echo $count++; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php //echo $row['inventory_name']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php //echo $row['adress']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php //echo $row['status_inventory']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php //echo $row['shelves_capacity']; ?>
+                                                    </td> -->
+
+                                                <!--select kệ giống select kho  -->
+                                                <!-- </td> -->
+
+                                                <!-- </tr> -->
                                                 <tr class="action" style="text-align: center;">
                                                     <td>
                                                         <?php echo $count++; ?>
@@ -175,7 +198,7 @@ $row = mysqli_fetch_array($result);
                                                     <td>
                                                         <?php echo $row['quantity']; ?>
                                                     </td>
-                                                   
+                                                    
                                                     <td>
                                                         <?php echo $row['status']; ?>
                                                     </td>
@@ -201,12 +224,40 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>
             </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Right sidebar -->
+            <!-- ============================================================== -->
+            <!-- .right-sidebar -->
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
         </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
         <footer class="footer"> © 2023 Inventory Management by <a
                     href="https://github.com/manhquan2808/inventory">inventory_management </a>
         </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
+        <!-- ============================================================== -->
     </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
     </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
     <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

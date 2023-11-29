@@ -2,10 +2,10 @@
 session_start();
 include("../assets/connect/connect.php");
 
-$id = $_SESSION['manager_id'];
+$id = $_SESSION['director_id'];
 ?>
 <?php
-if (!isset($_SESSION['manager_id'])) {
+if (!isset($_SESSION['director_id'])) {
     header('location:../');
     exit();
 }
@@ -171,24 +171,35 @@ if (isset($_POST['submit'])) {
                                             <tr style="text-align: center;">
                                                 <th>#</th>
                                                 <!-- <th class="border-top-0">ID</th> -->
-                                                <th class="border-top-0">Tên kệ</th>
-                                                <!-- <th class="border-top-0">Địa chỉ</th> -->
+                                                <th class="border-top-0">Tên kho</th>
+                                                <th class="border-top-0">Địa chỉ</th>
                                                 <!-- <th class="border-top-0">Trạng thái</th> -->
                                                 <th class="border-top-0">Sức chứa</th>
-                                                <th class="border-top-0"></th>
+                                                <th class="border-top-0">Thao tác</th>
                                             </tr>
                                                 <!-- <th class="border-top-0" colspan="2">Update</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $result = mysqli_query($conn, "SELECT *
-                                                                        FROM `shelves` 
-                                                                        join `inventory` on `inventory`.`inventory_id` = `shelves`.`inventory_id`
-                                                                         join `inventory_details` on `inventory_details`.`inventory_id` = `inventory`.`inventory_id`
+                                            if (isset($_REQUEST['remove_employee_id'])) {
+                                                $remove = $_REQUEST['remove_employee_id'];
+                                                mysqli_query($conn, "DELETE FROM `employee` WHERE `employee`.`employee_id` = '$remove'");
+                                            }
+                                            $result = mysqli_query($conn, "SELECT *, SUM(`shelves`.`capacity`) AS inventory_capacity, sum(`shelves`.`capacity`) as shelves_capacity, `inventory_details`.`employee_id` 
+                                                                        --      CASE
+                                                                        --     WHEN inventory_capacity > 0 THEN 'Còn trống'
+                                                                        --     WHEN inventory_capacity = 0 THEN 'Kho đầy'
+                                                                        --     ELSE 'The quantity is under 30'
+                                                                        -- END AS status_inventory  
+                                                                        FROM `inventory` 
+                                                                        join `shelves` on `inventory`.`inventory_id` = `shelves`.`inventory_id`
+                                                                        join `inventory_details` on `inventory_details`.`inventory_id` = `inventory`.`inventory_id`
                                                                         -- join `inventory_details` on `inventory_details`.`employee_id` = `employee`.`employee_id`
-                                                                        where `inventory_details`.`employee_id` = '$id'
-                                                                        ");
+                                                                        -- where `inventory_details`.`employee_id` = '$id'
+                                                                        GROUP BY 
+                                                                       `inventory`.`inventory_id`,
+                                                                        `inventory`.`inventory_name` ");
 
                                             ?>
                                             <?php
@@ -197,22 +208,30 @@ if (isset($_POST['submit'])) {
 
                                                 ?>
                                                 <tr class="action" style="text-align: center;">
-                                                    <!-- <td><input type="checkbox" name="<?php echo $row['shelves_id'] ?>"
+                                                    <!-- <td><input type="checkbox" name="<?php echo $row['inventory_id'] ?>"
                                                             value="<?php //echo $row['inventory_id'] ?>">
                                                     </td> -->
                                                     <td>
                                                         <?php echo $count++; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['shelves_name']; ?>
+                                                        <?php echo $row['inventory_name']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['capacity']; ?>
+                                                        <?php echo $row['adress']; ?>
                                                     </td>
+                                                    <!-- <td>
+                                                        <?php //echo $row['status_inventory']; ?>
+                                                    </td> -->
+                                                    <td>
+                                                        <?php echo $row['shelves_capacity']; ?>
+                                                    </td>
+
+                                                    <!--select kệ giống select kho  -->
                                                     </td>
                                                     <td style="width: 13%; text-align: center;">
                                                         <a
-                                                            href="./inventory_details.php?shelves_id=<?php echo $row['shelves_id'] ?>&manager_id=<?php echo $_SESSION['manager_id'] ?>">
+                                                            href="./inventory_details.php?inventory_id=<?php echo $row['inventory_id'] ?>&director_id=<?php echo $_SESSION['director_id'] ?>">
                                                             Xem
                                                         </a>
                                                     </td>

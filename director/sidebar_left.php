@@ -29,6 +29,10 @@
                             <a href="arrange_resource.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
                                     class="mdi me-2 mdi-album"></i><span class="hide-menu">Điều phối</span></a>
                         </li>
+                        <li class="sidebar-item">
+                            <a href="inventory_list.php" class="sidebar-link waves-effect waves-dark sidebar-link"><i
+                                    class="mdi me-2 mdi-album"></i><span class="hide-menu">Danh sách kho</span></a>
+                        </li>
                         
                     </ul>
                 </li>
